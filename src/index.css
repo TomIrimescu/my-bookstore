@@ -133,6 +133,7 @@ nav ul {
   text-align: center;
   width: 90%;
   margin: auto;
+  margin-bottom: 10em;
 }
 
 .book {
@@ -163,10 +164,18 @@ nav ul {
 
 .book-link {
   flex: 1 1 100rem;
-  background: #55606c;
   font-size: 1.7rem;
   width: 100%;
   height: 100%;
+}
+
+.book-link.update {
+  background: #55606c;
+}
+
+.book-link.delete{
+  color: white;
+  background-color: indianred;
 }
 
 .book-link:hover {
@@ -219,6 +228,10 @@ nav ul {
   padding: 3rem 0;
 }
 
+h3.addnewbook{
+  cursor: pointer;
+}
+
 .form-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -226,6 +239,11 @@ nav ul {
   justify-content: center;
   border: 1px #c7c7c7 solid;
   padding: 2rem;
+}
+
+.form-wrapper h3{
+  flex: 1 1 50rem;
+  padding-bottom: 1rem;
 }
 
 .form-image {
@@ -274,6 +292,18 @@ nav ul {
 
 .submit-form {
   width: 100%;
+}
+
+.btn-admin {
+  background: #55606c;
+  color: white;
+  font-size: 2rem;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.btn-admin:hover {
+  background: #121c27;
 }
 
 /* Cart Section */

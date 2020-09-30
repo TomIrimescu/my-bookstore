@@ -37,7 +37,7 @@ const CheckoutForm = () => {
       clearCart();
       history.push("/");
     }
-  }, [orderDetails]);
+  }, [orderDetails, checkout, clearCart, history]);
 
   // Handle real-time validation errors from the card Element.
   const handleChange = (event) => {

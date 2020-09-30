@@ -49,7 +49,7 @@ const BookProvider = ({ children }) => {
   };
 
   return (
-    <BookContext.Provider value={{ books, featured, loading, checkout }}>
+    <BookContext.Provider value={{ books, featured, loading, checkout, fetchBooks }}>
       {children}
     </BookContext.Provider>
   );
