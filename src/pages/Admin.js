@@ -77,12 +77,10 @@ const Admin = () => {
     scrollTop();
   }
 
-  const removeBook = async (book) => {
-    console.log(book);
-    const bookId = { "id": book.id }
-    // eslint-disable-next-line no-restricted-globals
-    const yes = confirm(`Are you sure you want to delete "${book.title}"?`);
-    if (yes === true) {
+  const removeBook = async () => {
+    console.log(bookDetails);
+    const bookId = { "id": bookDetails.id }
+    if (bookId) {
       try {
         await API.graphql(graphqlOperation(deleteBook, { input: bookId }))
         setBookDetails({ title: "", description: "", author: "", price: "" })
@@ -91,6 +89,7 @@ const Admin = () => {
         setDisplayUpdate(false);
         getBooks();
         fetchBooks();
+        returnToAddNewBook();
       } catch (err) {
         console.log('error deleting book:', err)
       }
@@ -136,7 +135,26 @@ const Admin = () => {
 
   return (
     <>
-      <span style={{ textAlign: "center" }}>
+      <div className="modal fade" id="deletBookModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">Delete Book</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div style={{ fontSize: "16px", textAlign: "center" }} className="modal-body">
+              Are you sure you want to delete...?<br /><br /><span style={{ fontWeight: "bold" }}>"{bookDetails.title}"</span>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => returnToAddNewBook()}>Cancel</button>
+              <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={removeBook.bind(bookDetails.id)}>OK</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style={{ textAlign: "center" }}>
         <AmplifyAuthenticator>
           <AmplifySignOut></AmplifySignOut>
           {displayAdd ?
@@ -146,10 +164,11 @@ const Admin = () => {
               </header>
               <form className="form-wrapper" onSubmit={handleCreateSubmit}>
                 <div className="form-image">
-                  {image ? <img className="image-preview" src={image} alt="" /> : <input
-                    type="file"
-                    accept="image/jpg"
-                    onChange={(e) => handleImageUpload(e)} />}
+                  {image ? <img className="image-preview" src={image} alt="" /> :
+                    <input
+                      type="file"
+                      accept="image/jpg"
+                      onChange={(e) => handleImageUpload(e)} />}
                 </div>
                 <div className="form-fields">
                   <div className="title-form">
@@ -207,7 +226,7 @@ const Admin = () => {
                     </p>
                   </div>
                   <div className="submit-form">
-                    <button className="btn" type="submit">Submit</button>
+                    <button className="btn btn-primary btn-lg" type="submit">Submit</button>
                   </div>
                 </div>
               </form>
@@ -216,7 +235,7 @@ const Admin = () => {
           {displayUpdate ?
             <section className="admin-wrapper">
               <header className="form-header">
-                <h3 className="addnewbook" onClick={() => returnToAddNewBook()}>Return to Add New Book</h3>
+                <button className="btn btn-primary btn-lg" onClick={() => returnToAddNewBook()}>Add New Book</button>
               </header>
               <form className="form-wrapper" onSubmit={handleUpdateSubmit}>
                 <h3>Update Book</h3>
@@ -282,7 +301,7 @@ const Admin = () => {
                     </p>
                   </div>
                   <div className="submit-form">
-                    <button className="btn" type="submit">Submit</button>
+                    <button className="btn btn-primary btn-lg" type="submit">Submit</button>
                   </div>
                 </div>
               </form>
@@ -292,15 +311,18 @@ const Admin = () => {
             {books.map(({ image, id, title }, i) => (
               <article key={id} className="book">
                 <button onClick={selectBook.bind(this, books[i])} className="btn-admin book-link update">update</button>
-                <div className="book-image">
-                  <img src={image} alt={title} />
+                <div className="card" style={{ width: "19rem" }}>
+                  <img src={image} className="card-img-top" alt={title}></img>
                 </div>
-                <button onClick={removeBook.bind(this, books[i])} className="btn-admin book-link delete">delete</button>
+                <button onClick={selectBook.bind(this, books[i])} type="button" className="btn-admin book-link delete" data-toggle="modal" data-target="#deletBookModal">delete</button>
               </article>
             ))}
           </section>
+          <section id="top">
+            <button onClick={() => scrollTop()} style={{ borderRadius: "1rem", margin: "2rem" }} className="btn pmd-btn-fab pmd-ripple-effect btn-outline-primary" type="button">top</button>
+          </section>
         </AmplifyAuthenticator>
-      </span>
+      </div>
     </>
   )
 }

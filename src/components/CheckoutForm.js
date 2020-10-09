@@ -81,7 +81,7 @@ const CheckoutForm = () => {
           {error}
         </div>
       </div>
-      <button type="submit" className="btn">
+      <button type="submit" className="btn btn-primary btn-lg">
         Submit Payment
       </button>
     </form>

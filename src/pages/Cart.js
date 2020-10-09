@@ -9,7 +9,7 @@ const Cart = () => {
   const { cart, total, increaseAmount, decreaseAmount } = useContext(CartContext);
 
   if (!cart.length) {
-    return <h3>Empty Cart</h3>
+    return <h3 className="cart-empty">Empty Cart</h3>
   }
   return (
     <section className="cart">
@@ -28,7 +28,7 @@ const Cart = () => {
             </div>
             <div className="amount">
               <button onClick={() => increaseAmount(id)}><FiChevronUp /></button>
-              <p>{amount}</p>
+              <p style={{ marginTop: "1rem" }}>{amount}</p>
               <button onClick={() => decreaseAmount(id, amount)}><FiChevronDown /></button>
             </div>
           </article>
@@ -37,8 +37,8 @@ const Cart = () => {
       <div>
         <h3>Total: $ {total}</h3>
       </div>
-      <div>
-        <button className="btn" onClick={() => history.push("/checkout")}>Checkout</button>
+      <div className="spacer">
+        <button className="btn btn-primary btn-lg" onClick={() => history.push("/checkout")}>Checkout</button>
       </div>
     </section>
   );
